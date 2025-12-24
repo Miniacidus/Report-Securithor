@@ -1,17 +1,24 @@
 # Securithor Report Automator
 
-### Descripción
-Herramienta de automatización desarrollada en Python para la optimización de reportes en centros de monitoreo que utilizan el software **Securithor**. Este programa procesa archivos CSV de señales y genera reportes de asistencia y fallas técnicas en formato Excel profesional.
+### Description
+A data automation tool developed in Python to optimize reporting workflows for security monitoring centers using **Securithor** software. This application processes raw CSV signal logs and generates professional Excel reports for attendance and technical failure tracking.
 
-### Problema Solucionado
-La generación manual de reportes tomaba varias horas de trabajo administrativo y era propensa a errores humanos. Esta herramienta reduce el tiempo de procesamiento a **segundos**, garantizando precisión en el mapeo de nombres y filtrado de clientes.
+### Problem Solved
+Manual report generation used to take several hours of administrative work and was highly prone to human error. This tool reduces processing time to **seconds**, ensuring 100% accuracy in client mapping and data filtering.
 
-### Funciones Principales
-- **Mapeo Automático:** Vincula números de cuenta con nombres de clientes mediante un diccionario externo.
-- **Filtro de Bajas:** Excluye automáticamente cuentas inactivas.
-- **Detección de Fallas:** Identifica clientes sin señales de test (señal 88) y separa los resultados en pestañas de colores.
-- **Formato de Impresión:** Genera archivos Excel listos para imprimir (50 filas por hoja, orientación horizontal).
+### Key Features
+- **Automatic Name Mapping:** Links account numbers to client names using an external dictionary.
+- **Termination Filtering:** Automatically excludes inactive or cancelled accounts from the final report.
+- **Failure Detection Logic:** Identifies clients without active test signals (Signal 88) and separates results into color-coded spreadsheets.
+- **Print-Ready Formatting:** Generates Excel files pre-configured for printing (50 rows per page, landscape orientation).
 
-### Tecnologías
-- **Lenguaje:** Python 3.x
-- **Librerías:** Pandas (Manejo de datos), Tkinter (Interfaz gráfica), OpenPyxl (Formato Excel).
+### Tech Stack
+- **Language:** Python 3.x
+- **Libraries:** Pandas (Data Processing), Tkinter (GUI), OpenPyxl (Excel Formatting).
+- **Deployment:** PyInstaller (Standalone Executable).
+
+### 🚀 How to use
+1. Run the `RepotesAlarmas.exe`.
+2. Configure your client list using the **"Nombres"** button.
+3. Load your Securithor CSV signals.
+4. Click **"GENERAR REPORTES"** to get your Excel files.
