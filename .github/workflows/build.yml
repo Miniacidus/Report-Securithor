@@ -3,15 +3,14 @@ name: Build EXE
 on:
   push:
     tags:
-      - 'v*' # Se activa al crear un Release con tag v1.0.x
+      - 'v*'
 
-permissions:
-  contents: write # Esto fuerza el permiso de escritura para subir el .exe
+permissions: # CORRECCIÓN: Permisos explícitos de escritura
+  contents: write
 
 jobs:
   build:
     runs-on: windows-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -28,7 +27,7 @@ jobs:
 
     - name: Build EXE with PyInstaller
       run: |
-        # Usamos reportes.py que es el nombre de tu archivo actual
+        # CORRECCIÓN: Usamos reportes.py
         python -m PyInstaller --noconsole --onefile --name="ReportesSecurithor" reportes.py
 
     - name: Create Release and Upload EXE
