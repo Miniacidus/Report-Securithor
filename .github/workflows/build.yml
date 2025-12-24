@@ -3,7 +3,10 @@ name: Build EXE
 on:
   push:
     tags:
-      - 'v*' # Esto activa el proceso cuando creas un Release con tag v1.0.x
+      - 'v*' # Se activa al crear un Release con tag v1.0.x
+
+permissions:
+  contents: write # Esto fuerza el permiso de escritura para subir el .exe
 
 jobs:
   build:
@@ -25,7 +28,8 @@ jobs:
 
     - name: Build EXE with PyInstaller
       run: |
-        python -m PyInstaller --noconsole --onefile --name="ReportesSecurithor" Reportes.py
+        # Usamos reportes.py que es el nombre de tu archivo actual
+        python -m PyInstaller --noconsole --onefile --name="ReportesSecurithor" reportes.py
 
     - name: Create Release and Upload EXE
       uses: softprops/action-gh-release@v2
