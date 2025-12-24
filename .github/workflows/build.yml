@@ -5,8 +5,8 @@ on:
     tags:
       - 'v*'
 
-permissions: # CORRECCIÓN: Permisos explícitos de escritura
-  contents: write
+permissions:
+  contents: write # ESTO ES VITAL
 
 jobs:
   build:
@@ -27,7 +27,7 @@ jobs:
 
     - name: Build EXE with PyInstaller
       run: |
-        # CORRECCIÓN: Usamos reportes.py
+        # Verifica que aquí diga reportes.py
         python -m PyInstaller --noconsole --onefile --name="ReportesSecurithor" reportes.py
 
     - name: Create Release and Upload EXE
