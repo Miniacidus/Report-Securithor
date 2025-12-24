@@ -13,16 +13,16 @@ from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.pagebreak import Break
 
 # --- CONFIGURACIÓN DE VERSIÓN Y GITHUB ---
-VERSION_ACTUAL = "v1.0.13" 
+VERSION_ACTUAL = "v1.0.14" 
 EXE_NAME = "ReportesSecurithor.exe"
 REPO_API_URL = "https://api.github.com/repos/Miniacidus/Report-Securithor/releases/latest"
 URL_RELEASES = "https://github.com/Miniacidus/Report-Securithor/releases" # <--- NUEVO: Link directo
 
 # Variables globales
-ALTO_FILA = 20
+ALTO_FILA = 30
 ruta_mensual = ""
 ruta_anual = ""
-FILAS_POR_PAGINA = 28
+FILAS_POR_PAGINA = 30
 
 MESES_ES = {
     1: "Enero", 2: "Febrero", 3: "Marzo", 4: "Abril", 5: "Mayo", 6: "Junio",
