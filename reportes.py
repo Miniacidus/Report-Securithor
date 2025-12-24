@@ -21,7 +21,7 @@ URL_RELEASES = "https://github.com/Miniacidus/Report-Securithor/releases" # <---
 # Variables Globales de Rutas inicializadas
 ruta_mensual = ""
 ruta_anual = ""
-FILAS_POR_PAGINA = 50 
+FILAS_POR_PAGINA = 35 
 
 MESES_ES = {
     1: "Enero", 2: "Febrero", 3: "Marzo", 4: "Abril", 5: "Mayo", 6: "Junio",
