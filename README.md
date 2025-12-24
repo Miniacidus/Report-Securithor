@@ -17,7 +17,7 @@ Manual report generation used to take several hours of administrative work and w
 - **Libraries:** Pandas (Data Processing), Tkinter (GUI), OpenPyxl (Excel Formatting).
 - **Deployment:** PyInstaller (Standalone Executable).
 
-### 🚀 How to use
+### How to use
 1. Run the `RepotesAlarmas.exe`.
 2. Configure your client list using the **"Nombres"** button.
 3. Load your Securithor CSV signals.
