@@ -12,7 +12,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.pagebreak import Break
 
 # --- CONFIGURACIÓN DE VERSIÓN Y GITHUB ---
-VERSION_ACTUAL = "v1.0.4" 
+VERSION_ACTUAL = "v1.0.5" 
 EXE_NAME = "ReportesSecurithor.exe"
 REPO_API_URL = "https://api.github.com/repos/Miniacidus/Report-Securithor/releases/latest"
 URL_DOWNLOAD = "https://github.com/Miniacidus/Report-Securithor/releases/latest/download/ReportesSecurithor.exe"
@@ -287,3 +287,4 @@ btn_generar.pack(pady=20)
 
 asegurar_archivos_config()
 root.mainloop()
+
