@@ -13,15 +13,16 @@ from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.pagebreak import Break
 
 # --- CONFIGURACIÓN DE VERSIÓN Y GITHUB ---
-VERSION_ACTUAL = "v1.0.12" 
+VERSION_ACTUAL = "v1.0.13" 
 EXE_NAME = "ReportesSecurithor.exe"
 REPO_API_URL = "https://api.github.com/repos/Miniacidus/Report-Securithor/releases/latest"
 URL_RELEASES = "https://github.com/Miniacidus/Report-Securithor/releases" # <--- NUEVO: Link directo
 
-# Variables Globales de Rutas inicializadas
+# Variables globales
+ALTO_FILA = 20
 ruta_mensual = ""
 ruta_anual = ""
-FILAS_POR_PAGINA = 35 
+FILAS_POR_PAGINA = 28
 
 MESES_ES = {
     1: "Enero", 2: "Febrero", 3: "Marzo", 4: "Abril", 5: "Mayo", 6: "Junio",
@@ -127,7 +128,7 @@ def leer_csv_robusto(ruta):
         raise Exception(f"Error procesando el archivo CSV: {e}")
 
 def aplicar_formato_excel(ruta_excel, modo="asistencia"):
-    """Formatea el Excel para impresión profesional a escala"""
+    """Formatea el Excel para impresión profesional a escala con filas ajustadas"""
     wb = load_workbook(ruta_excel)
     for sheet_name in wb.sheetnames:
         ws = wb[sheet_name]
@@ -138,6 +139,10 @@ def aplicar_formato_excel(ruta_excel, modo="asistencia"):
         if sheet_name == "Solo_Sucesos": color_fondo = "9BC2E6" 
 
         for row in ws.iter_rows():
+            # --- NUEVO: APLICAR ALTURA A LA FILA ACTUAL ---
+            # Esto estira la fila verticalmente según el número ALTO_FILA
+            ws.row_dimensions[row[0].row].height = ALTO_FILA
+
             for cell in row:
                 cell.border = Border(left=borde_fino, right=borde_fino, top=borde_fino, bottom=borde_fino)
                 cell.alignment = Alignment(horizontal='center', vertical='center')
