@@ -13,16 +13,14 @@ from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.pagebreak import Break
 
 # --- CONFIGURACIÓN DE VERSIÓN Y GITHUB ---
-VERSION_ACTUAL = "v1.0.16" 
+VERSION_ACTUAL = "v1.0.17" 
 EXE_NAME = "ReportesSecurithor.exe"
 REPO_API_URL = "https://api.github.com/repos/Miniacidus/Report-Securithor/releases/latest"
 URL_RELEASES = "https://github.com/Miniacidus/Report-Securithor/releases" # <--- NUEVO: Link directo
 
 # Variables globales
-ALTO_FILA = 30
 ruta_mensual = ""
 ruta_anual = ""
-FILAS_POR_PAGINA = 24
 
 MESES_ES = {
     1: "Enero", 2: "Febrero", 3: "Marzo", 4: "Abril", 5: "Mayo", 6: "Junio",
@@ -128,20 +126,28 @@ def leer_csv_robusto(ruta):
         raise Exception(f"Error procesando el archivo CSV: {e}")
 
 def aplicar_formato_excel(ruta_excel, modo="asistencia"):
-    """Formatea el Excel para impresión profesional a escala con filas ajustadas"""
+    """
+    Formatea el Excel para A4.
+    - MENSUAL: Horizontal, Fila 30.
+    - ANUAL: Vertical, Fila 25.
+    - AMBOS: Ajuste de ancho automático y cortes de hoja automáticos.
+    """
     wb = load_workbook(ruta_excel)
     for sheet_name in wb.sheetnames:
         ws = wb[sheet_name]
         borde_fino = Side(style="thin")
         
+        # Colores de encabezados
         color_fondo = "4472C4" 
         if sheet_name == "Sin_Reportar": color_fondo = "FFC000" 
         if sheet_name == "Solo_Sucesos": color_fondo = "9BC2E6" 
 
         for row in ws.iter_rows():
-            # --- NUEVO: APLICAR ALTURA A LA FILA ACTUAL ---
-            # Esto estira la fila verticalmente según el número ALTO_FILA
-            ws.row_dimensions[row[0].row].height = ALTO_FILA
+            # --- CONTROL DE ALTURA DE FILAS ---
+            if modo == "asistencia":
+                ws.row_dimensions[row[0].row].height = 30 # Mensual (Alto)
+            else:
+                ws.row_dimensions[row[0].row].height = 25 # Anual (Medio)
 
             for cell in row:
                 cell.border = Border(left=borde_fino, right=borde_fino, top=borde_fino, bottom=borde_fino)
@@ -149,29 +155,39 @@ def aplicar_formato_excel(ruta_excel, modo="asistencia"):
                 if cell.row == 1:
                     cell.font = Font(bold=True, color="FFFFFF", size=10)
                     cell.fill = PatternFill("solid", fgColor=color_fondo)
-                else: cell.font = Font(size=9)
-        
-        ws.column_dimensions['A'].width = 12 
-        ws.column_dimensions['B'].width = 42 
-        ws.column_dimensions['C'].width = 18
-        if ws.max_column >= 4: ws.column_dimensions['D'].width = 20
+                else: 
+                    tamano = 9 if modo == "asistencia" else 8
+                    cell.font = Font(size=tamano)
 
+        # --- ANCHOS DE COLUMNA ---
         if modo == "asistencia":
+            ws.column_dimensions['A'].width = 10
+            ws.column_dimensions['B'].width = 38
+            ws.column_dimensions['C'].width = 16
+            if ws.max_column >= 4: ws.column_dimensions['D'].width = 18
             for col in range(3, ws.max_column + 1):
-                ws.column_dimensions[get_column_letter(col)].width = 5.5
+                ws.column_dimensions[get_column_letter(col)].width = 4.5
+        else:
+            ws.column_dimensions['A'].width = 18 
+            ws.column_dimensions['B'].width = 55 
 
-        # --- AJUSTES DE IMPRESIÓN (31 DÍAS EN UNA HOJA) ---
-        ws.page_setup.orientation = ws.ORIENTATION_LANDSCAPE
-        ws.page_setup.paperSize = ws.PAPERSIZE_LETTER
+        # --- ORIENTACIÓN Y PAPEL ---
+        if modo == "asistencia":
+            ws.page_setup.orientation = ws.ORIENTATION_LANDSCAPE # Horizontal
+        else:
+            ws.page_setup.orientation = ws.ORIENTATION_PORTRAIT  # Vertical
+
+        # CAMBIO A A4
+        ws.page_setup.paperSize = ws.PAPERSIZE_A4 
+        
+        # --- AJUSTES DE IMPRESIÓN ---
         ws.sheet_properties.pageSetUpPr.fitToPage = True 
-        ws.page_setup.fitToWidth = 1
-        ws.page_setup.fitToHeight = 0 
+        ws.page_setup.fitToWidth = 1      # Ajustar todo a 1 página de ancho
+        ws.page_setup.fitToHeight = False # Dejar que el largo sea automático
+        
         ws.page_margins.left = 0.2
         ws.page_margins.right = 0.2
-        ws.print_title_rows = '1:1'
-        
-        for i in range(FILAS_POR_PAGINA + 2, ws.max_row + 1, FILAS_POR_PAGINA):
-            ws.row_breaks.append(Break(id=i-1))
+        ws.print_title_rows = '1:1' # Repetir encabezado en cada hoja
             
     wb.save(ruta_excel)
 
